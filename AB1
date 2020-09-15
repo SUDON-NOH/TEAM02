@@ -1,0 +1,55 @@
+# ab1 file to excel
+# ID & SEQ
+
+from Bio import SeqIO
+import os
+from openpyxl import Workbook
+
+
+# we sholud make the list that we want to save files
+folder = folder name
+path = directory
+
+
+
+list = os.listdir(path+folder)
+
+files = []
+
+column = ["A", "B"]
+
+for i in list:
+
+    if i[-3:]=="ab1":
+        files.append(i)
+
+    else:
+        pass
+
+
+files.sort()
+print(files)
+
+id = []
+seq = []
+
+for m in files:
+
+    record = SeqIO.read(path+folder+m, "abi")
+    print(record.seq)
+
+    Sequence = str(record.seq.upper())
+
+    id.append(m[:-4])
+    seq.append(Sequence)
+
+wb = Workbook()
+ws = wb.active
+ws.title = "COPY"
+
+for a, b, c in zip(id, seq, range(len(id))):
+    x = c+1
+    ws["A"+str(x)] = a
+    ws["B"+str(x)] = b
+
+wb.save(path+folder+"COPY.xlsx")
